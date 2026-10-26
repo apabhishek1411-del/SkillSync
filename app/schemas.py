@@ -371,6 +371,11 @@ class ReviewCreate(BaseModel):
     quality_rating: Optional[int] = Field(None, ge=1, le=5)
     delivery_rating: Optional[int] = Field(None, ge=1, le=5)
 
+class ReviewUpdate(BaseModel):
+    rating: int = Field(..., ge=1, le=5)
+    title: Optional[str] = Field(None, max_length=200)
+    comment: Optional[str] = Field(None, max_length=2000)
+
 class ReviewerInfo(BaseModel):
     id: int
     full_name: str

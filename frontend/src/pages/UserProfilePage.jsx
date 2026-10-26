@@ -179,7 +179,7 @@ export default function UserProfilePage() {
                                             {/* Screenshot thumbnail */}
                                             {project.image_url && (
                                                 <img
-                                                    src={`${API_BASE}${project.image_url}`}
+                                                    src={project.image_url.startsWith('http') ? project.image_url : `${API_BASE}${project.image_url}`}
                                                     alt={project.title}
                                                     className="w-24 h-20 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0"
                                                 />

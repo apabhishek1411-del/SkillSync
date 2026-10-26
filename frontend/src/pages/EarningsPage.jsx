@@ -10,9 +10,9 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 function BarChart({ data }) {
     const max = Math.max(...data.map(d => d.amount), 1);
     return (
-        <div className="flex items-end gap-2 h-36 mt-2">
+        <div className="flex items-end gap-2 h-44 mt-2">
             {data.map((d, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
+                <div key={i} className="flex-1 h-full flex flex-col justify-end items-center gap-1 group">
                     <span className="text-xs font-bold text-primary-700 dark:text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity">
                         {d.amount > 0 ? `₹${d.amount}` : ''}
                     </span>

@@ -141,6 +141,10 @@ export default function OrderDetailPage() {
     const [reviewTitle, setReviewTitle] = useState('');
     const [reviewComment, setReviewComment] = useState('');
     const [submittingReview, setSubmittingReview] = useState(false);
+    const [review, setReview] = useState(null);
+    const [showReplyForm, setShowReplyForm] = useState(false);
+    const [replyText, setReplyText] = useState('');
+    const [submittingReply, setSubmittingReply] = useState(false);
 
     // Rejection / cancellation reason
     const [showRejectInput, setShowRejectInput] = useState(false);
@@ -161,8 +165,32 @@ export default function OrderDetailPage() {
                     setPaymentTransaction(txnRes.data);
                 } catch (_) {}
             }
+            try {
+                const rv = await reviewsAPI.getOrderReview(id);
+                setReview(rv.data || null);
+            } catch (_) { setReview(null); }
         } catch { toast.error('Failed to load order'); }
         finally { setLoading(false); }
+    };
+
+    const startEditReview = () => {
+        setReviewRating(review?.rating || 5);
+        setReviewTitle(review?.title || '');
+        setReviewComment(review?.comment || '');
+        setShowReviewForm(true);
+    };
+
+    const handleSubmitReply = async (e) => {
+        e.preventDefault();
+        setSubmittingReply(true);
+        try {
+            await reviewsAPI.addResponse(review.id, { provider_response: replyText.trim() });
+            toast.success('Reply posted!');
+            setShowReplyForm(false);
+            await loadOrder();
+        } catch (err) {
+            toast.error(err.response?.data?.detail?.[0]?.msg || err.response?.data?.detail || 'Failed to post reply');
+        } finally { setSubmittingReply(false); }
     };
 
     const updateStatus = async (status, extra = {}) => {
@@ -176,6 +204,7 @@ export default function OrderDetailPage() {
         } finally { setUpdating(false); }
     };
 
+    // ── Razorpay Payment Flow ────────────────────────────────────────────────
     // ── Razorpay Payment Flow ────────────────────────────────────────────────
     const handlePayNow = async () => {
         if (processingPayment) return;
@@ -206,7 +235,7 @@ export default function OrderDetailPage() {
                         await loadOrder();
                         setShowReceipt(true);
                     } catch (err) {
-                        toast.error('Payment verification failed. Contact support.');
+                        toast.error(err.response?.data?.detail || 'Payment verification failed. Contact support.');
                     }
                 },
                 prefill: {
@@ -242,13 +271,18 @@ export default function OrderDetailPage() {
         if (!reviewRating) return toast.error('Please select a rating');
         setSubmittingReview(true);
         try {
-            await reviewsAPI.createReview({
-                order_id: order.id,
-                rating: reviewRating,
-                title: reviewTitle,
-                comment: reviewComment,
-            });
-            toast.success('Review submitted!');
+            if (review) {
+                await reviewsAPI.updateReview(review.id, { rating: reviewRating, title: reviewTitle, comment: reviewComment });
+                toast.success('Review updated!');
+            } else {
+                await reviewsAPI.createReview({
+                    order_id: order.id,
+                    rating: reviewRating,
+                    title: reviewTitle,
+                    comment: reviewComment,
+                });
+                toast.success('Review submitted!');
+            }
             setShowReviewForm(false);
             await loadOrder();
         } catch (err) {
@@ -493,23 +527,14 @@ export default function OrderDetailPage() {
                 )}
             </div>
 
-            {/* Review Card */}
-            {isClient && order.status === 'completed' && (
+            {/* Review Card — client writes/edits, provider replies */}
+            {(isClient || isProvider) && order.status === 'completed' && (isProvider ? !!review : true) && (
                 <div className="card dark:bg-surface-850 dark:border-gray-800">
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Leave a Review</h2>
-                    {order.review ? (
-                        <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl">
-                            <div className="flex gap-0.5 mb-2">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star key={i} size={16} className={i < order.review.rating ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'}
-                                        fill={i < order.review.rating ? 'currentColor' : 'none'} />
-                                ))}
-                            </div>
-                            {order.review.title && <p className="font-semibold text-gray-900 dark:text-white text-sm">{order.review.title}</p>}
-                            {order.review.comment && <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{order.review.comment}</p>}
-                            <p className="text-xs text-amber-600 dark:text-amber-500 mt-2">✅ Review submitted</p>
-                        </div>
-                    ) : showReviewForm ? (
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                        {isClient ? (review ? 'Your Review' : 'Leave a Review') : 'Client Review'}
+                    </h2>
+
+                    {showReviewForm ? (
                         <form onSubmit={handleSubmitReview} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Your Rating *</label>
@@ -528,12 +553,59 @@ export default function OrderDetailPage() {
                             <div className="flex gap-3">
                                 <button type="button" onClick={() => setShowReviewForm(false)} className="btn-secondary flex-1">Cancel</button>
                                 <button type="submit" disabled={submittingReview} className="btn-primary flex-1">
-                                    {submittingReview ? 'Submitting...' : 'Submit Review'}
+                                    {submittingReview ? 'Saving...' : (review ? 'Save Changes' : 'Submit Review')}
                                 </button>
                             </div>
                         </form>
+                    ) : review ? (
+                        <div className="space-y-3">
+                            <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl">
+                                <div className="flex gap-0.5 mb-2">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} size={16} className={i < review.rating ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'}
+                                            fill={i < review.rating ? 'currentColor' : 'none'} />
+                                    ))}
+                                </div>
+                                {review.title && <p className="font-semibold text-gray-900 dark:text-white text-sm">{review.title}</p>}
+                                {review.comment && <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{review.comment}</p>}
+                                {isProvider && <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">by {review.reviewer?.full_name}</p>}
+                                {isClient && (
+                                    <button onClick={startEditReview} className="mt-3 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+                                        ✏️ Edit review
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Provider reply */}
+                            {showReplyForm ? (
+                                <form onSubmit={handleSubmitReply} className="space-y-2">
+                                    <textarea value={replyText} onChange={e => setReplyText(e.target.value)} rows={3}
+                                        className="input-field resize-none dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                                        placeholder="Write your reply to this review (min 10 characters)..." />
+                                    <div className="flex gap-2">
+                                        <button type="button" onClick={() => setShowReplyForm(false)} className="btn-secondary flex-1">Cancel</button>
+                                        <button type="submit" disabled={submittingReply || replyText.trim().length < 10} className="btn-primary flex-1">
+                                            {submittingReply ? 'Posting...' : 'Post Reply'}
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : review.provider_response ? (
+                                <div className="p-4 ml-4 bg-primary-50 dark:bg-primary-900/20 border-l-4 border-primary-500 rounded-xl">
+                                    <p className="text-xs font-bold text-primary-700 dark:text-primary-400 mb-1">Provider's reply</p>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300">{review.provider_response}</p>
+                                    {isProvider && (
+                                        <button onClick={() => { setReplyText(review.provider_response); setShowReplyForm(true); }}
+                                            className="mt-2 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:underline">✏️ Edit reply</button>
+                                    )}
+                                </div>
+                            ) : isProvider ? (
+                                <button onClick={() => { setReplyText(''); setShowReplyForm(true); }} className="btn-outline w-full py-3">
+                                    💬 Reply to this review
+                                </button>
+                            ) : null}
+                        </div>
                     ) : (
-                        <button onClick={() => setShowReviewForm(true)} className="btn-outline w-full py-3">
+                        <button onClick={startEditReview} className="btn-outline w-full py-3">
                             <Star size={18} /> Write a Review
                         </button>
                     )}

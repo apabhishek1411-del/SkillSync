@@ -127,6 +127,8 @@ export const reviewsAPI = {
     getServiceReviews: (serviceId, params) => api.get(`/reviews/service/${serviceId}`, { params }),
     getUserReviews: (userId, params) => api.get(`/reviews/user/${userId}`, { params }),
     createReview: (data) => api.post('/reviews', data),
+    getOrderReview: (orderId) => api.get(`/reviews/order/${orderId}`),
+    updateReview: (id, data) => api.put(`/reviews/${id}`, data),
     addResponse: (id, data) => api.post(`/reviews/${id}/response`, data),
 };
 // Admin API

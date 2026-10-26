@@ -293,7 +293,7 @@ export default function ProfilePage() {
                             {newProject.image_url ? (
                                 <div className="relative inline-block">
                                     <img
-                                        src={`${API_BASE}${newProject.image_url}`}
+                                        src={newProject.image_url.startsWith('http') ? newProject.image_url : `${API_BASE}${newProject.image_url}`}
                                         alt="Screenshot"
                                         className="h-24 rounded-lg border border-gray-200 object-cover dark:border-gray-700"
                                     />
@@ -343,7 +343,7 @@ export default function ProfilePage() {
                                     {/* Screenshot thumbnail */}
                                     {project.image_url && (
                                         <img
-                                            src={`${API_BASE}${project.image_url}`}
+                                            src={project.image_url.startsWith('http') ? project.image_url : `${API_BASE}${project.image_url}`}
                                             alt={project.title}
                                             className="w-24 h-20 rounded-lg object-cover border border-gray-200 flex-shrink-0 dark:border-gray-700"
                                         />

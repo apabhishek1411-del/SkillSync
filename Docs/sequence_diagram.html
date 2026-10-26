@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkillSphere Sequence Diagram</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; background: #ffffff; }</style>
+</head>
+<body class="p-8 flex flex-col justify-center items-center min-h-screen bg-white">
+  <div class="w-[1540px] bg-white p-6 space-y-6">
+    <!-- Header Card -->
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="inline-flex flex-col items-center px-10 py-4 rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 border border-blue-200 shadow-sm">
+        <span class="text-3xl font-extrabold text-blue-900 tracking-tight">SkillSphere</span>
+        <span class="text-sm font-semibold text-blue-700 uppercase tracking-widest mt-0.5">Sequence Diagram • End-to-End Escrow & Local AI Pipeline</span>
+      </div>
+    </div>
+
+    <!-- SVG Diagram -->
+    <div class="w-full border border-slate-200 rounded-2xl p-2 bg-[#fafbfc]">
+      <svg viewBox="0 0 1520 1880" class="w-full h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="shadow-card" x="-5%" y="-5%" width="110%" height="115%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.06"/>
+          </filter>
+          <marker id="arrow-req" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>
+          </marker>
+          <marker id="arrow-resp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+          </marker>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+          </marker>
+          <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+          </marker>
+          <marker id="arrow-emerald" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+          </marker>
+        </defs>
+
+        <!-- Vertical Lifelines -->
+        <line x1="110" y1="90" x2="110" y2="1780" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="270" y1="90" x2="270" y2="1780" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="430" y1="90" x2="430" y2="1780" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="590" y1="90" x2="590" y2="1780" stroke="#67e8f9" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="750" y1="90" x2="750" y2="1780" stroke="#c4b5fd" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="910" y1="90" x2="910" y2="1780" stroke="#fbcfe8" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="1070" y1="90" x2="1070" y2="1780" stroke="#ddd6fe" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="1230" y1="90" x2="1230" y2="1780" stroke="#a7f3d0" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="1390" y1="90" x2="1390" y2="1780" stroke="#99f6e4" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+        <!-- Lifeline Cards -->
+        <g transform="translate(50, 15)">
+          <rect width="120" height="70" rx="12" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <circle cx="60" cy="24" r="8" fill="none" stroke="#e11d48" stroke-width="2"/>
+          <path d="M 60 32 L 60 44 M 50 37 L 70 37 M 52 52 L 60 44 L 68 52" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="60" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#9f1239">Student Buyer</text>
+          <text x="60" y="73" text-anchor="middle" font-size="9" fill="#be123c">(@ceconline.edu)</text>
+        </g>
+        <g transform="translate(210, 15)">
+          <rect width="120" height="70" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <rect x="48" y="14" width="24" height="18" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+          <line x1="48" y1="20" x2="72" y2="20" stroke="#2563eb" stroke-width="1"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Client Web App</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#3b82f6">(React 18 + Vite)</text>
+        </g>
+        <g transform="translate(370, 15)">
+          <rect width="120" height="70" rx="12" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <rect x="48" y="14" width="24" height="18" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#0369a1">API Gateway</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0284c7">(FastAPI / ASGI)</text>
+        </g>
+        <g transform="translate(530, 15)">
+          <rect width="120" height="70" rx="12" fill="#ecfeff" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <path d="M 60 14 L 68 18 L 68 25 C 68 30 60 33 60 33 C 60 33 52 30 52 25 L 52 18 Z" fill="#cffafe" stroke="#0891b2" stroke-width="1.5"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490">Security Guard</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0891b2">(JWT & Rate Limit)</text>
+        </g>
+        <g transform="translate(690, 15)">
+          <rect width="120" height="70" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <circle cx="54" cy="20" r="3" fill="#7c3aed"/><circle cx="66" cy="20" r="3" fill="#7c3aed"/><circle cx="60" cy="28" r="3" fill="#7c3aed"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">Semantic AI</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#7c3aed">(TF-IDF Search)</text>
+        </g>
+        <g transform="translate(850, 15)">
+          <rect width="120" height="70" rx="12" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <rect x="50" y="15" width="20" height="15" rx="3" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"/>
+          <line x1="50" y1="20" x2="70" y2="20" stroke="#db2777" stroke-width="1.5"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">Razorpay</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#db2777">(Escrow Gateway)</text>
+        </g>
+        <g transform="translate(1010, 15)">
+          <rect width="120" height="70" rx="12" fill="#f5f3ff" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <circle cx="60" cy="22" r="6" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#6b21a8">Student Seller</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#9333ea">(Skill Provider)</text>
+        </g>
+        <g transform="translate(1170, 15)">
+          <rect width="120" height="70" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Sentiment AI</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#059669">(NLP VADER Engine)</text>
+        </g>
+        <g transform="translate(1330, 15)">
+          <rect width="120" height="70" rx="12" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5" filter="url(#shadow-card)"/>
+          <ellipse cx="60" cy="18" rx="10" ry="4" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.3"/>
+          <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#115e59">PostgreSQL 15</text>
+          <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0d9488">(AsyncPG DB)</text>
+        </g>
+
+        <!-- Phase 1: Semantic Discovery -->
+        <g transform="translate(20, 105)">
+          <rect width="1480" height="235" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">1. Semantic Discovery</text>
+        </g>
+        <rect x="106" y="145" width="8" height="60" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+        <rect x="266" y="150" width="8" height="175" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="426" y="155" width="8" height="165" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="586" y="165" width="8" height="35" rx="4" fill="#a5f3fc" stroke="#0891b2" stroke-width="1"/>
+        <rect x="746" y="210" width="8" height="85" rx="4" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1"/>
+        <rect x="1386" y="250" width="8" height="35" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <line x1="114" y1="150" x2="266" y2="150" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="185" y="144" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">1. Enter Query ("python ML assignment")</text>
+        <line x1="274" y1="160" x2="426" y2="160" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="350" y="154" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">2. GET /api/v1/services/search/semantic</text>
+        <line x1="434" y1="170" x2="586" y2="170" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="510" y="164" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">3. Verify JWT & Sliding Window (10 req/min)</text>
+        <line x1="586" y1="195" x2="434" y2="195" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="510" y="190" text-anchor="middle" font-size="9" fill="#475569">4. Authorized & Within Rate Quota</text>
+        <line x1="434" y1="215" x2="746" y2="215" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+        <text x="590" y="210" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">5. Synonym Expansion & TF-IDF Vectorization</text>
+        <line x1="754" y1="250" x2="1386" y2="250" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="1070" y="244" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">6. Fetch Active Catalog (Fallback to ILIKE if cosine=0)</text>
+        <line x1="1386" y1="280" x2="754" y2="280" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="1070" y="274" text-anchor="middle" font-size="9" fill="#475569">7. Service Listings & Metadata Rows</text>
+        <line x1="746" y1="295" x2="434" y2="295" stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-purple)"/>
+        <text x="590" y="290" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">8. Return Ranked Services + Relevance Scores</text>
+        <line x1="426" y1="315" x2="274" y2="315" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="350" y="310" text-anchor="middle" font-size="9" fill="#475569">9. HTTP 200 (Ranked Service JSON)</text>
+        <line x1="266" y1="330" x2="114" y2="330" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="185" y="325" text-anchor="middle" font-size="9" fill="#475569">10. Render Cards with Ratings & Badges</text>
+
+        <!-- Phase 2: Escrow Order Setup -->
+        <g transform="translate(20, 360)">
+          <rect width="1480" height="280" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">2. Escrow Order Setup</text>
+        </g>
+        <rect x="106" y="400" width="8" height="40" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+        <rect x="266" y="405" width="8" height="225" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="426" y="415" width="8" height="210" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="906" y="485" width="8" height="60" rx="4" fill="#fbcfe8" stroke="#db2777" stroke-width="1"/>
+        <rect x="1386" y="435" width="8" height="45" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <line x1="114" y1="410" x2="266" y2="410" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="185" y="404" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">11. Click "Order Service" + Specs</text>
+        <line x1="274" y1="420" x2="426" y2="420" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="350" y="414" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">12. POST /api/v1/orders (requirements, price)</text>
+        <line x1="434" y1="435" x2="1386" y2="435" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="910" y="429" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">13. INSERT Order (status='pending', payment='pending')</text>
+        <line x1="1386" y1="465" x2="434" y2="465" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="910" y="459" text-anchor="middle" font-size="9" fill="#475569">14. Order Created with UID 'ORD-202610...'</text>
+        <line x1="434" y1="485" x2="906" y2="485" stroke="#db2777" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="670" y="479" text-anchor="middle" font-size="9.5" font-weight="600" fill="#be185d">15. Create Escrow Order (amount_paise, INR, HMAC Secret)</text>
+        <line x1="906" y1="520" x2="434" y2="520" stroke="#db2777" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="670" y="514" text-anchor="middle" font-size="9" fill="#be185d">16. Return rzp_order_id & Checkout Credentials</text>
+        <line x1="426" y1="550" x2="274" y2="550" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="350" y="544" text-anchor="middle" font-size="9" fill="#475569">17. Initialize Razorpay Checkout Modal</text>
+        <line x1="274" y1="580" x2="114" y2="580" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="185" y="574" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">18. Present UPI / Card / NetBanking Sheet</text>
+        <line x1="114" y1="615" x2="266" y2="615" stroke="#10b981" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+        <text x="185" y="609" text-anchor="middle" font-size="9.5" font-weight="600" fill="#047857">19. Authorize Payment via UPI / OTP</text>
+
+        <!-- Phase 3: Escrow Verification -->
+        <g transform="translate(20, 660)">
+          <rect width="1480" height="230" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">3. Escrow Verification</text>
+        </g>
+        <g transform="translate(250, 710)">
+          <rect width="1230" height="165" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+          <path d="M 0 0 L 130 0 L 140 18 L 0 18 Z" fill="#e2e8f0"/>
+          <text x="8" y="13" font-size="9.5" font-weight="700" fill="#334155">alt [HMAC-SHA256 Signature Verification]</text>
+        </g>
+        <rect x="266" y="725" width="8" height="135" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="426" y="730" width="8" height="120" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="1066" y="805" width="8" height="40" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+        <rect x="1386" y="760" width="8" height="75" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <line x1="274" y1="735" x2="426" y2="735" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="350" y="729" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">20. POST /api/v1/payments/verify (signature, payment_id)</text>
+        <line x1="434" y1="755" x2="434" y2="775" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="434" y1="775" x2="475" y2="775" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="475" y1="775" x2="475" y2="755" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="475" y1="755" x2="442" y2="755" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+        <text x="560" y="770" font-size="9" font-weight="600" fill="#0369a1">21. Calculate HMAC-SHA256(order_id | payment_id, SECRET)</text>
+        <line x1="434" y1="795" x2="1386" y2="795" stroke="#10b981" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+        <text x="910" y="789" text-anchor="middle" font-size="9.5" font-weight="600" fill="#047857">22. UPDATE orders SET status='accepted', payment_status='paid'; Lock Escrow</text>
+        <line x1="434" y1="820" x2="1066" y2="820" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+        <text x="750" y="814" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">23. In-App Notification: "New Funded Order Accepted! Start Work"</text>
+        <line x1="426" y1="845" x2="274" y2="845" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+        <text x="350" y="839" text-anchor="middle" font-size="9" font-weight="600" fill="#047857">24. HTTP 200 (Escrow Locked & Order Active)</text>
+
+        <!-- Phase 4: Deliverable Handover -->
+        <g transform="translate(20, 910)">
+          <rect width="1480" height="260" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">4. Deliverable Handover</text>
+        </g>
+        <g transform="translate(90, 955)">
+          <rect width="1000" height="75" rx="8" fill="#ffffff" stroke="#c084fc" stroke-width="1" stroke-dasharray="4,2"/>
+          <path d="M 0 0 L 150 0 L 160 18 L 0 18 Z" fill="#f3e8ff"/>
+          <text x="8" y="13" font-size="9.5" font-weight="700" fill="#6b21a8">loop [Peer Chat & File Clarification]</text>
+        </g>
+        <rect x="106" y="980" width="8" height="35" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+        <rect x="1066" y="975" width="8" height="175" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+        <rect x="426" y="980" width="8" height="170" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="1386" y="1000" width="8" height="145" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <line x1="1066" y1="990" x2="434" y2="990" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+        <text x="750" y="984" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">25. POST /api/v1/chat/messages (spec clarifications, draft links)</text>
+        <line x1="434" y1="1010" x2="114" y2="1010" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+        <text x="270" y="1004" text-anchor="middle" font-size="9" fill="#6d28d9">Push Message to Buyer's Chat Screen</text>
+        <line x1="1066" y1="1050" x2="434" y2="1050" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="750" y="1044" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">26. POST /api/v1/orders/{id}/deliver (Upload code/zip/pdf deliverables)</text>
+        <line x1="434" y1="1070" x2="434" y2="1090" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="434" y1="1090" x2="480" y2="1090" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="480" y1="1090" x2="480" y2="1070" stroke="#0284c7" stroke-width="1.3"/>
+        <line x1="480" y1="1070" x2="442" y2="1070" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+        <text x="560" y="1085" font-size="9" font-weight="600" fill="#0369a1">27. Magic-Byte Binary Check (Validates FF D8 FF / 89 50 4E 47 / 25 50 44 46)</text>
+        <line x1="434" y1="1115" x2="1386" y2="1115" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="910" y="1109" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">28. UPDATE orders SET status='delivered', actual_delivery=NOW()</text>
+        <line x1="426" y1="1140" x2="114" y2="1140" stroke="#2563eb" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+        <text x="270" y="1134" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1d4ed8">29. Notify Buyer: "Work Submitted for Inspection"</text>
+
+        <!-- Phase 5: Buyer Inspection -->
+        <g transform="translate(20, 1190)">
+          <rect width="1480" height="270" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">5. Buyer Inspection</text>
+        </g>
+        <g transform="translate(80, 1235)">
+          <rect width="1380" height="205" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+          <path d="M 0 0 L 110 0 L 120 18 L 0 18 Z" fill="#e2e8f0"/>
+          <text x="8" y="13" font-size="9.5" font-weight="700" fill="#334155">alt [Inspection Decision]</text>
+          <rect x="10" y="24" width="75" height="18" rx="4" fill="#fee2e2"/>
+          <text x="47" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#b91c1c">[Revision]</text>
+          <line x1="0" y1="100" x2="1380" y2="100" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,2"/>
+          <rect x="10" y="106" width="75" height="18" rx="4" fill="#dcfce7"/>
+          <text x="47" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="#15803d">[Approved]</text>
+        </g>
+        <rect x="106" y="1270" width="8" height="150" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+        <rect x="426" y="1275" width="8" height="155" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="1066" y="1295" width="8" height="40" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+        <rect x="1386" y="1285" width="8" height="145" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <line x1="114" y1="1280" x2="426" y2="1280" stroke="#dc2626" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="270" y="1274" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">30a. Request Revision (feedback notes, change requirements)</text>
+        <line x1="434" y1="1300" x2="1066" y2="1300" stroke="#dc2626" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="750" y="1294" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">Notify Provider of Revision Request (status='revision')</text>
+        <line x1="114" y1="1360" x2="426" y2="1360" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+        <text x="270" y="1354" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">30b. POST /api/v1/orders/{id}/complete (Approve Deliverable)</text>
+        <line x1="434" y1="1385" x2="1386" y2="1385" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+        <text x="910" y="1379" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">31. SET status='completed'; Release Escrow: provider.total_earnings += price; buyer.total_spent += price</text>
+        <line x1="426" y1="1415" x2="114" y2="1415" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+        <text x="270" y="1409" text-anchor="middle" font-size="9" font-weight="600" fill="#15803d">32. Order Completed & Funds Credited to Seller</text>
+
+        <!-- Phase 6: Local AI Sentiment -->
+        <g transform="translate(20, 1480)">
+          <rect width="1480" height="280" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+          <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+          <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">6. Local AI Sentiment</text>
+        </g>
+        <g transform="translate(410, 1565)">
+          <rect width="840" height="90" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="1" stroke-dasharray="4,2"/>
+          <path d="M 0 0 L 180 0 L 190 18 L 0 18 Z" fill="#d1fae5"/>
+          <text x="8" y="13" font-size="9.5" font-weight="700" fill="#065f46">loop [VADER Sentiment & Valence Analysis]</text>
+        </g>
+        <rect x="106" y="1520" width="8" height="40" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+        <rect x="426" y="1525" width="8" height="215" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+        <rect x="1226" y="1580" width="8" height="65" rx="4" fill="#a7f3d0" stroke="#059669" stroke-width="1"/>
+        <rect x="1386" y="1670" width="8" height="60" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+        <rect x="1066" y="1715" width="8" height="25" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+        <line x1="114" y1="1535" x2="426" y2="1535" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="270" y="1529" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">33. POST /api/v1/reviews (rating=5, comment="Outstanding fast code!")</text>
+        <line x1="434" y1="1585" x2="1226" y2="1585" stroke="#059669" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+        <text x="830" y="1579" text-anchor="middle" font-size="9.5" font-weight="600" fill="#065f46">34. analyze_sentiment(comment, rating) -> Parse Negations, Boosters & Polarity</text>
+        <line x1="1226" y1="1625" x2="434" y2="1625" stroke="#059669" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+        <text x="830" y="1619" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">35. Return {compound_score: +0.88, label: 'positive', summary_tag: 'Overwhelmingly Positive'}</text>
+        <line x1="434" y1="1675" x2="1386" y2="1675" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+        <text x="910" y="1669" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">36. INSERT reviews, Recalculate provider.average_rating & service.average_rating</text>
+        <line x1="434" y1="1720" x2="1066" y2="1720" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+        <text x="750" y="1714" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">37. In-App Notification: "New 5★ Positive Review Posted! Prompt to Reply"</text>
+        <line x1="426" y1="1735" x2="114" y2="1735" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+        <text x="270" y="1729" text-anchor="middle" font-size="9" fill="#475569">38. HTTP 201 Created (Review Verified & Live)</text>
+
+        <!-- Legend -->
+        <g transform="translate(1200, 1785)">
+          <rect width="280" height="80" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" filter="url(#shadow-card)"/>
+          <text x="15" y="18" font-size="10" font-weight="700" fill="#334155">Legend</text>
+          <rect x="18" y="27" width="10" height="18" rx="2" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <text x="36" y="40" font-size="9" fill="#475569">Activation Bar</text>
+          <line x1="130" y1="36" x2="165" y2="36" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="175" y="40" font-size="9" fill="#475569">Request Message</text>
+          <line x1="130" y1="60" x2="165" y2="60" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="175" y="64" font-size="9" fill="#475569">Response Message</text>
+          <line x1="18" y1="60" x2="45" y2="60" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="55" y="64" font-size="9" fill="#475569">AI / Escrow Event</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

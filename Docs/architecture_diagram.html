@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkillSphere System Architecture</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; background: #ffffff; }</style>
+</head>
+<body class="p-8 flex justify-center items-center min-h-screen">
+  <div class="w-[980px] bg-white p-6 space-y-4">
+    <!-- Top Header Card -->
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="w-full px-8 py-5 rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 border border-blue-200 shadow-sm">
+        <h1 class="text-2xl font-extrabold text-blue-900 tracking-tight">SkillSphere System Architecture</h1>
+        <p class="text-xs font-semibold text-blue-700 mt-1">Campus-Exclusive Peer Skill Exchange & Escrow Marketplace with Embedded Local AI</p>
+      </div>
+    </div>
+
+    <!-- 1 User layer -->
+    <div class="rounded-2xl p-4 border shadow-sm bg-[#FAF8F5] border-[#E8E2D8]">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-[#EFE8DC] text-[#78644A] flex items-center justify-center font-bold text-xs">1</span>
+          <h2 class="font-bold text-xs text-[#4A3B2C] tracking-tight">User layer</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-[#8C755E] uppercase tracking-wider">Actors & Campus Stakeholders</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        <div class="bg-white border border-[#E8E2D8] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Student Buyer</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">@ceconline.edu Client</div>
+          <div class="text-[9px] text-slate-400 mt-1">Searches skills, funds escrow, inspects deliverables</div>
+        </div>
+        <div class="bg-white border border-[#E8E2D8] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Student Provider</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Peer Freelancer</div>
+          <div class="text-[9px] text-slate-400 mt-1">Publishes gigs, delivers files, earns campus payouts</div>
+        </div>
+        <div class="bg-white border border-[#E8E2D8] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Campus Administrator</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">admin@ceconline.edu</div>
+          <div class="text-[9px] text-slate-400 mt-1">Listing approval, dispute escalation, KYC vetting</div>
+        </div>
+        <div class="bg-white border border-[#E8E2D8] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Peer Reviewer</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Verified Order Client</div>
+          <div class="text-[9px] text-slate-400 mt-1">Rates peer work, feeds VADER NLP sentiment engine</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex justify-center -my-2 text-slate-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+
+    <!-- 2 Presentation layer -->
+    <div class="rounded-2xl p-4 border shadow-sm bg-[#EEF8F2] border-[#D3EADB]">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-[#D8EFE2] text-[#2D6A4F] flex items-center justify-center font-bold text-xs">2</span>
+          <h2 class="font-bold text-xs text-[#1B4332] tracking-tight">Presentation layer</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-[#40916C] uppercase tracking-wider">React 18 + Vite + Tailwind CSS</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        <div class="bg-white border border-[#D3EADB] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Semantic Search & Catalog</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">NL Query & Filters</div>
+          <div class="text-[9px] text-slate-400 mt-1">Cosine relevance score badges, fallback SQL ILIKE</div>
+        </div>
+        <div class="bg-white border border-[#D3EADB] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Escrow & Order Tracker</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Multi-State Lifecycle</div>
+          <div class="text-[9px] text-slate-400 mt-1">Pending → Accepted → Delivered → Completed</div>
+        </div>
+        <div class="bg-white border border-[#D3EADB] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Student Portfolio Hub</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Verified Showcases</div>
+          <div class="text-[9px] text-slate-400 mt-1">Project tags, image galleries, NLP sentiment badges</div>
+        </div>
+        <div class="bg-white border border-[#D3EADB] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Peer Chat & Notifications</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Direct Messaging & Bell</div>
+          <div class="text-[9px] text-slate-400 mt-1">Axios interceptor dual-token automated silent refresh</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex justify-center -my-2 text-slate-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+
+    <!-- 3 Application layer -->
+    <div class="rounded-2xl p-4 border shadow-sm bg-[#F1F2FA] border-[#D9DCF2]">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-[#E0E2F5] text-[#3D4085] flex items-center justify-center font-bold text-xs">3</span>
+          <h2 class="font-bold text-xs text-[#27295C] tracking-tight">Application layer</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-[#575BA8] uppercase tracking-wider">FastAPI Core Modules & Python 3.11</span>
+      </div>
+      <div class="space-y-2.5">
+        <div class="grid grid-cols-3 gap-2.5">
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">Auth & Rate Guard</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded">Security</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">JWT & Sliding-Window IP Limit</div>
+            <div class="text-[9px] text-slate-400 mt-1">10 req/min auth limit, @ceconline.edu domain check</div>
+          </div>
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">Semantic AI Search</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-purple-50 text-purple-600 rounded">Local AI</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">TF-IDF Vector Space Model</div>
+            <div class="text-[9px] text-slate-400 mt-1">Synonym expansion across 7 technical campus domains</div>
+          </div>
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">Order State Machine</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-indigo-50 text-indigo-600 rounded">Lifecycle</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Milestone & Delivery State</div>
+            <div class="text-[9px] text-slate-400 mt-1">Pending → Accepted → Delivered → Completed / Revision</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2.5">
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">Magic-Byte Validator</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-600 rounded">Security</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Binary Signature Inspection</div>
+            <div class="text-[9px] text-slate-400 mt-1">Validates FF D8 FF (JPEG), 89 50 4E 47 (PNG), 25 50 44 46</div>
+          </div>
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">Razorpay Escrow Handler</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded">Fintech</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">HMAC-SHA256 Signature Check</div>
+            <div class="text-[9px] text-slate-400 mt-1">Strict payout settlement, zero financial double counting</div>
+          </div>
+          <div class="bg-white border border-[#D9DCF2] rounded-xl p-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-xs text-slate-800">VADER NLP Engine</span>
+              <span class="text-[8px] font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-600 rounded">Local AI</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Offline Sentiment Analysis</div>
+            <div class="text-[9px] text-slate-400 mt-1">Compound score -1.0 to +1.0, valence booster & negation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex justify-center -my-2 text-slate-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+
+    <!-- 4 Data and storage layer -->
+    <div class="rounded-2xl p-4 border shadow-sm bg-[#FAF1EB] border-[#F2DDD0]">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-[#EFE2D8] text-[#8A4C2E] flex items-center justify-center font-bold text-xs">4</span>
+          <h2 class="font-bold text-xs text-[#5C2E19] tracking-tight">Data and storage layer</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-[#A05C3B] uppercase tracking-wider">Persistence & In-Memory State</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        <div class="bg-white border border-[#F2DDD0] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">PostgreSQL 15</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">AsyncPG + SQLAlchemy 2.0</div>
+          <div class="text-[9px] text-slate-400 mt-1">Users, Services, Orders, Reviews, Portfolios, Notifications</div>
+        </div>
+        <div class="bg-white border border-[#F2DDD0] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Redis 7 Cache</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">In-Memory Fast Store</div>
+          <div class="text-[9px] text-slate-400 mt-1">Sliding-window IP rate limiters & token revocation state</div>
+        </div>
+        <div class="bg-white border border-[#F2DDD0] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Local Vector Corpus</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">TF-IDF Vocabulary Index</div>
+          <div class="text-[9px] text-slate-400 mt-1">Campus synonyms across 7 technical & creative domains</div>
+        </div>
+        <div class="bg-white border border-[#F2DDD0] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Static File Vault</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Local Encrypted Directory</div>
+          <div class="text-[9px] text-slate-400 mt-1">Student avatars, portfolio showcases, deliverable attachments</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex justify-center -my-2 text-slate-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+
+    <!-- 5 Infrastructure layer -->
+    <div class="rounded-2xl p-4 border shadow-sm bg-[#FAEDF2] border-[#F3D7E3]">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-[#EFE0E7] text-[#8C345C] flex items-center justify-center font-bold text-xs">5</span>
+          <h2 class="font-bold text-xs text-[#5C1B39] tracking-tight">Infrastructure layer</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-[#A64B75] uppercase tracking-wider">Dockerized Campus Runtime</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        <div class="bg-white border border-[#F3D7E3] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Docker Compose</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Bridge Network</div>
+          <div class="text-[9px] text-slate-400 mt-1">skillsphere_network isolated container topology</div>
+        </div>
+        <div class="bg-white border border-[#F3D7E3] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">FastAPI Container</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Uvicorn ASGI Engine</div>
+          <div class="text-[9px] text-slate-400 mt-1">Python 3.11-slim, multi-stage build (port 8000)</div>
+        </div>
+        <div class="bg-white border border-[#F3D7E3] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">React Client Container</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Vite Dev / Nginx</div>
+          <div class="text-[9px] text-slate-400 mt-1">Fast Hot-Module Replacement server (port 3000)</div>
+        </div>
+        <div class="bg-white border border-[#F3D7E3] rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">PostgreSQL Container</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Postgres 15 Alpine</div>
+          <div class="text-[9px] text-slate-400 mt-1">Healthchecked container with persistent volume data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex justify-center -my-2 text-slate-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+
+    <!-- External services -->
+    <div class="rounded-2xl p-4 border-2 border-dashed border-slate-300 bg-slate-50/70">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-bold text-xs text-slate-700 tracking-tight">External services</h2>
+        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Outside the Campus Cluster</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Razorpay Payment Engine</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Checkout SDK & Webhooks</div>
+          <div class="text-[9px] text-slate-400 mt-1">UPI QR, NetBanking, HMAC-SHA256 callback verification</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Campus Identity Edge</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">@ceconline.edu Validation</div>
+          <div class="text-[9px] text-slate-400 mt-1">Restricted student email domain filter on registration</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
+          <div class="font-bold text-xs text-slate-800">Client LocalStorage</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Axios Interceptor Token Queue</div>
+          <div class="text-[9px] text-slate-400 mt-1">Access token (30m) & Refresh token (7d) safe concurrency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

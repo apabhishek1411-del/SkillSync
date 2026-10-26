@@ -2,6 +2,7 @@
 import hmac
 import hashlib
 import logging
+import uuid
 from datetime import datetime
 from typing import Optional
 
@@ -38,6 +39,11 @@ def get_razorpay_client():
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Razorpay payment gateway SDK is not installed in this environment."
+        )
+    if not (settings.razorpay_key_id or "").strip() or not (settings.razorpay_key_secret or "").strip():
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Razorpay credentials not configured. Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in .env."
         )
     return razorpay.Client(
         auth=(settings.razorpay_key_id, settings.razorpay_key_secret)
@@ -99,9 +105,14 @@ async def create_razorpay_order(
                 "service": order.service_title or "",
             },
         })
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"Razorpay order creation failed: {e}")
-        raise HTTPException(status_code=502, detail="Payment gateway error. Please try again.")
+        logger.error(f"Razorpay order creation failed: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=502,
+            detail=f"Razorpay gateway error: {str(e)}"
+        )
 
     # Persist transaction record
     txn = PaymentTransaction(
@@ -326,12 +337,15 @@ async def initiate_refund(
     try:
         rzp = get_razorpay_client()
         refund = rzp.payment.refund(txn.razorpay_payment_id, {"amount": txn.amount_paise})
+        refund_id = refund.get("id")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Razorpay refund failed: {e}")
-        raise HTTPException(status_code=502, detail="Refund failed. Please try again.")
+        raise HTTPException(status_code=502, detail=f"Refund failed: {str(e)}")
 
     # Update records
-    txn.razorpay_refund_id = refund.get("id")
+    txn.razorpay_refund_id = refund_id
     txn.status = "refunded"
     order.payment_status = PaymentStatus.REFUNDED
 

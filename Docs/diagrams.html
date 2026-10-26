@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSphere Architecture & Sequence Diagrams</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-[#1e293b] antialiased min-h-screen p-4 md:p-8">
+
+  <!-- Top Navigation & Controls Header -->
+  <div class="max-w-7xl mx-auto mb-6 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="font-bold text-lg text-slate-900 tracking-tight">SkillSphere Engineering Diagrams</h1>
+        <p class="text-xs text-slate-500">Campus Skill Exchange & Escrow Marketplace • CEC Chengannur</p>
+      </div>
+    </div>
+
+    <!-- Tab switcher -->
+    <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+      <button id="btn-seq" onclick="switchTab('sequence')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-white text-blue-700 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+        </svg>
+        Sequence Diagram
+      </button>
+      <button id="btn-arch" onclick="switchTab('architecture')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+        </svg>
+        System Architecture
+      </button>
+      <button id="btn-both" onclick="switchTab('both')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+        </svg>
+        View Both
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button onclick="window.print()" class="px-3 py-2 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-xs font-medium flex items-center gap-1.5 shadow-sm transition">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+        Print / PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTAINER FOR DIAGRAMS -->
+  <div class="max-w-7xl mx-auto space-y-10">
+
+    <!-- ========================================== -->
+    <!-- 1. SEQUENCE DIAGRAM SECTION                -->
+    <!-- ========================================== -->
+    <div id="section-sequence" class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+      <div class="flex flex-col items-center justify-center mb-8 text-center">
+        <div class="inline-flex flex-col items-center px-8 py-3 rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 border border-blue-200 shadow-sm">
+          <span class="text-xl md:text-2xl font-extrabold text-blue-900 tracking-tight">SkillSphere</span>
+          <span class="text-xs md:text-sm font-semibold text-blue-700 uppercase tracking-widest mt-0.5">Sequence Diagram • End-to-End Escrow & Local AI Pipeline</span>
+        </div>
+      </div>
+
+      <!-- Scrollable SVG Canvas -->
+      <div class="w-full overflow-x-auto custom-scroll border border-slate-100 rounded-2xl bg-[#fafbfc] p-2">
+        <svg viewBox="0 0 1520 1880" class="w-full min-w-[1300px] h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="shadow-card" x="-5%" y="-5%" width="110%" height="115%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.06"/>
+            </filter>
+            <filter id="shadow-glow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+            </filter>
+            
+            <!-- Markers for arrows -->
+            <marker id="arrow-req" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>
+            </marker>
+            <marker id="arrow-resp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+            </marker>
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+            </marker>
+            <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+            </marker>
+            <marker id="arrow-emerald" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+            </marker>
+          </defs>
+
+          <!-- ============================================== -->
+          <!-- LIFELINES (X coordinates)                      -->
+          <!-- 1: Buyer (110)                                 -->
+          <!-- 2: React SPA (270)                             -->
+          <!-- 3: FastAPI (430)                               -->
+          <!-- 4: Auth & Rate Limiter (590)                   -->
+          <!-- 5: TF-IDF Semantic Search (750)                -->
+          <!-- 6: Razorpay Gateway (910)                      -->
+          <!-- 7: Student Provider (1070)                     -->
+          <!-- 8: VADER Sentiment AI (1230)                   -->
+          <!-- 9: PostgreSQL 15 DB (1390)                     -->
+          <!-- ============================================== -->
+
+          <!-- Vertical Dashed Lines -->
+          <line x1="110" y1="90" x2="110" y2="1780" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="270" y1="90" x2="270" y2="1780" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="430" y1="90" x2="430" y2="1780" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="590" y1="90" x2="590" y2="1780" stroke="#67e8f9" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="750" y1="90" x2="750" y2="1780" stroke="#c4b5fd" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="910" y1="90" x2="910" y2="1780" stroke="#fbcfe8" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="1070" y1="90" x2="1070" y2="1780" stroke="#ddd6fe" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="1230" y1="90" x2="1230" y2="1780" stroke="#a7f3d0" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <line x1="1390" y1="90" x2="1390" y2="1780" stroke="#99f6e4" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+          <!-- ============================================== -->
+          <!-- LIFELINE HEADER CARDS                          -->
+          <!-- ============================================== -->
+          <!-- 1. Buyer Actor -->
+          <g transform="translate(50, 15)">
+            <rect width="120" height="70" rx="12" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <circle cx="60" cy="24" r="8" fill="none" stroke="#e11d48" stroke-width="2"/>
+            <path d="M 60 32 L 60 44 M 50 37 L 70 37 M 52 52 L 60 44 L 68 52" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="60" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#9f1239">Student Buyer</text>
+            <text x="60" y="73" text-anchor="middle" font-size="9" fill="#be123c">(@ceconline.edu)</text>
+          </g>
+
+          <!-- 2. React 18 SPA -->
+          <g transform="translate(210, 15)">
+            <rect width="120" height="70" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <!-- Web/Browser Icon -->
+            <rect x="48" y="14" width="24" height="18" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <line x1="48" y1="20" x2="72" y2="20" stroke="#2563eb" stroke-width="1"/>
+            <circle cx="53" cy="17" r="1" fill="#2563eb"/>
+            <circle cx="57" cy="17" r="1" fill="#2563eb"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Client Web App</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#3b82f6">(React 18 + Vite)</text>
+          </g>
+
+          <!-- 3. FastAPI Core -->
+          <g transform="translate(370, 15)">
+            <rect width="120" height="70" rx="12" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <rect x="48" y="14" width="24" height="18" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+            <path d="M 54 23 L 58 23 M 62 23 L 66 23" stroke="#0284c7" stroke-width="1.5" stroke-linecap="round"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#0369a1">API Gateway</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0284c7">(FastAPI / ASGI)</text>
+          </g>
+
+          <!-- 4. Auth & Rate Limiter -->
+          <g transform="translate(530, 15)">
+            <rect width="120" height="70" rx="12" fill="#ecfeff" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <path d="M 60 14 L 68 18 L 68 25 C 68 30 60 33 60 33 C 60 33 52 30 52 25 L 52 18 Z" fill="#cffafe" stroke="#0891b2" stroke-width="1.5"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490">Security Guard</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0891b2">(JWT & Rate Limit)</text>
+          </g>
+
+          <!-- 5. TF-IDF Semantic Search -->
+          <g transform="translate(690, 15)">
+            <rect width="120" height="70" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <!-- Vector/Brain Icon -->
+            <circle cx="54" cy="20" r="3" fill="#7c3aed"/>
+            <circle cx="66" cy="20" r="3" fill="#7c3aed"/>
+            <circle cx="60" cy="28" r="3" fill="#7c3aed"/>
+            <line x1="54" y1="20" x2="66" y2="20" stroke="#7c3aed" stroke-width="1.2"/>
+            <line x1="54" y1="20" x2="60" y2="28" stroke="#7c3aed" stroke-width="1.2"/>
+            <line x1="66" y1="20" x2="60" y2="28" stroke="#7c3aed" stroke-width="1.2"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">Semantic AI</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#7c3aed">(TF-IDF Search)</text>
+          </g>
+
+          <!-- 6. Razorpay Gateway -->
+          <g transform="translate(850, 15)">
+            <rect width="120" height="70" rx="12" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <rect x="50" y="15" width="20" height="15" rx="3" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"/>
+            <line x1="50" y1="20" x2="70" y2="20" stroke="#db2777" stroke-width="1.5"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">Razorpay</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#db2777">(Escrow Gateway)</text>
+          </g>
+
+          <!-- 7. Student Provider -->
+          <g transform="translate(1010, 15)">
+            <rect width="120" height="70" rx="12" fill="#f5f3ff" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <circle cx="60" cy="22" r="6" fill="#f3e8ff" stroke="#9333ea" stroke-width="1.5"/>
+            <path d="M 50 32 C 50 28 54 28 60 28 C 66 28 70 28 70 32" stroke="#9333ea" stroke-width="1.5" fill="none"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#6b21a8">Student Seller</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#9333ea">(Skill Provider)</text>
+          </g>
+
+          <!-- 8. VADER Sentiment AI -->
+          <g transform="translate(1170, 15)">
+            <rect width="120" height="70" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <!-- Heart/Sentiment Gauge -->
+            <path d="M 55 18 A 3 3 0 0 1 60 21 A 3 3 0 0 1 65 18 A 3 3 0 0 1 68 22 Q 68 27 60 31 Q 52 27 52 22 A 3 3 0 0 1 55 18 Z" fill="#d1fae5" stroke="#059669" stroke-width="1.2"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Sentiment AI</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#059669">(NLP VADER Engine)</text>
+          </g>
+
+          <!-- 9. PostgreSQL 15 DB -->
+          <g transform="translate(1330, 15)">
+            <rect width="120" height="70" rx="12" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5" filter="url(#shadow-card)"/>
+            <!-- DB Cylinder Icon -->
+            <ellipse cx="60" cy="18" rx="10" ry="4" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.3"/>
+            <path d="M 50 18 L 50 28 A 10 4 0 0 0 70 28 L 70 18" fill="none" stroke="#0d9488" stroke-width="1.3"/>
+            <path d="M 50 23 A 10 4 0 0 0 70 23" fill="none" stroke="#0d9488" stroke-width="1.3"/>
+            <text x="60" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#115e59">PostgreSQL 15</text>
+            <text x="60" y="60" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0d9488">(AsyncPG DB)</text>
+          </g>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 1: DISCOVERY & SEMANTIC SEARCH (Y: 105 - 340)                       -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 105)">
+            <!-- Phase bounding container -->
+            <rect width="1480" height="235" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <!-- Left Phase Pill Badge -->
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">1. Semantic Discovery</text>
+          </g>
+
+          <!-- Activations Phase 1 -->
+          <rect x="106" y="145" width="8" height="60" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <rect x="266" y="150" width="8" height="175" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+          <rect x="426" y="155" width="8" height="165" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="586" y="165" width="8" height="35" rx="4" fill="#a5f3fc" stroke="#0891b2" stroke-width="1"/>
+          <rect x="746" y="210" width="8" height="85" rx="4" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1"/>
+          <rect x="1386" y="250" width="8" height="35" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+
+          <!-- Messages Phase 1 -->
+          <!-- 1. Query input -->
+          <line x1="114" y1="150" x2="266" y2="150" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="185" y="144" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">1. Enter Query ("python ML assignment")</text>
+
+          <!-- 2. HTTP Request -->
+          <line x1="274" y1="160" x2="426" y2="160" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="350" y="154" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">2. GET /api/v1/services/search/semantic</text>
+
+          <!-- 3. Rate Limit check -->
+          <line x1="434" y1="170" x2="586" y2="170" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="510" y="164" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">3. Verify JWT & Sliding Window (10 req/min)</text>
+
+          <!-- 4. Rate Limit Passed -->
+          <line x1="586" y1="195" x2="434" y2="195" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="510" y="190" text-anchor="middle" font-size="9" fill="#475569">4. Authorized & Within Rate Quota</text>
+
+          <!-- 5. Search Subsystem -->
+          <line x1="434" y1="215" x2="746" y2="215" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="590" y="210" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">5. Synonym Expansion & TF-IDF Vectorization</text>
+
+          <!-- 6. Vector similarity -->
+          <line x1="754" y1="250" x2="1386" y2="250" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="1070" y="244" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">6. Fetch Active Catalog (Fallback to ILIKE if cosine=0)</text>
+
+          <!-- 7. DB Results -->
+          <line x1="1386" y1="280" x2="754" y2="280" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="1070" y="274" text-anchor="middle" font-size="9" fill="#475569">7. Service Listings & Metadata Rows</text>
+
+          <!-- 8. Return Ranked listings -->
+          <line x1="746" y1="295" x2="434" y2="295" stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-purple)"/>
+          <text x="590" y="290" text-anchor="middle" font-size="9" font-weight="600" fill="#6d28d9">8. Return Ranked Services + Relevance Scores</text>
+
+          <!-- 9. Send to UI -->
+          <line x1="426" y1="315" x2="274" y2="315" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="350" y="310" text-anchor="middle" font-size="9" fill="#475569">9. HTTP 200 (Ranked Service JSON)</text>
+
+          <!-- 10. Display cards -->
+          <line x1="266" y1="330" x2="114" y2="330" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="185" y="325" text-anchor="middle" font-size="9" fill="#475569">10. Render Cards with Ratings & Badges</text>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 2: ORDER PLACEMENT & ESCROW CHECKOUT (Y: 360 - 640)                 -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 360)">
+            <rect width="1480" height="280" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">2. Escrow Order Setup</text>
+          </g>
+
+          <!-- Activations Phase 2 -->
+          <rect x="106" y="400" width="8" height="40" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <rect x="266" y="405" width="8" height="225" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+          <rect x="426" y="415" width="8" height="210" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="906" y="485" width="8" height="60" rx="4" fill="#fbcfe8" stroke="#db2777" stroke-width="1"/>
+          <rect x="1386" y="435" width="8" height="45" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+
+          <!-- 11. Buyer clicks order -->
+          <line x1="114" y1="410" x2="266" y2="410" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="185" y="404" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">11. Click "Order Service" + Specs</text>
+
+          <!-- 12. POST Order -->
+          <line x1="274" y1="420" x2="426" y2="420" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="350" y="414" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">12. POST /api/v1/orders (requirements, price)</text>
+
+          <!-- 13. Persist Order PENDING -->
+          <line x1="434" y1="435" x2="1386" y2="435" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="910" y="429" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">13. INSERT Order (status='pending', payment='pending')</text>
+
+          <!-- 14. Order Created -->
+          <line x1="1386" y1="465" x2="434" y2="465" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="910" y="459" text-anchor="middle" font-size="9" fill="#475569">14. Order Created with UID 'ORD-202610...'</text>
+
+          <!-- 15. Create Razorpay Order -->
+          <line x1="434" y1="485" x2="906" y2="485" stroke="#db2777" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="670" y="479" text-anchor="middle" font-size="9.5" font-weight="600" fill="#be185d">15. Create Escrow Order (amount_paise, INR, HMAC Secret)</text>
+
+          <!-- 16. Razorpay Order response -->
+          <line x1="906" y1="520" x2="434" y2="520" stroke="#db2777" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="670" y="514" text-anchor="middle" font-size="9" fill="#be185d">16. Return rzp_order_id & Checkout Credentials</text>
+
+          <!-- 17. Return to UI -->
+          <line x1="426" y1="550" x2="274" y2="550" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="350" y="544" text-anchor="middle" font-size="9" fill="#475569">17. Initialize Razorpay Checkout Modal</text>
+
+          <!-- 18. Open modal -->
+          <line x1="274" y1="580" x2="114" y2="580" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="185" y="574" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">18. Present UPI / Card / NetBanking Sheet</text>
+
+          <!-- 19. Payment completed -->
+          <line x1="114" y1="615" x2="266" y2="615" stroke="#10b981" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+          <text x="185" y="609" text-anchor="middle" font-size="9.5" font-weight="600" fill="#047857">19. Authorize Payment via UPI / OTP</text>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 3: PAYMENT VERIFICATION & ESCROW LOCK (Y: 660 - 890)                -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 660)">
+            <rect width="1480" height="230" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">3. Escrow Verification</text>
+          </g>
+
+          <!-- Alt Frame: Signature Check -->
+          <g transform="translate(250, 710)">
+            <rect width="1230" height="165" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+            <path d="M 0 0 L 130 0 L 140 18 L 0 18 Z" fill="#e2e8f0"/>
+            <text x="8" y="13" font-size="9.5" font-weight="700" fill="#334155">alt [HMAC-SHA256 Signature Verification]</text>
+          </g>
+
+          <!-- Activations Phase 3 -->
+          <rect x="266" y="725" width="8" height="135" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+          <rect x="426" y="730" width="8" height="120" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="1066" y="805" width="8" height="40" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+          <rect x="1386" y="760" width="8" height="75" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+
+          <!-- 20. Post payment verification -->
+          <line x1="274" y1="735" x2="426" y2="735" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="350" y="729" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">20. POST /api/v1/payments/verify (signature, payment_id)</text>
+
+          <!-- 21. Compute HMAC SHA-256 -->
+          <line x1="434" y1="755" x2="434" y2="775" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="434" y1="775" x2="475" y2="775" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="475" y1="775" x2="475" y2="755" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="475" y1="755" x2="442" y2="755" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+          <text x="560" y="770" font-size="9" font-weight="600" fill="#0369a1">21. Calculate HMAC-SHA256(order_id | payment_id, SECRET)</text>
+
+          <!-- 22. Status: Verified, Lock Escrow -->
+          <line x1="434" y1="795" x2="1386" y2="795" stroke="#10b981" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+          <text x="910" y="789" text-anchor="middle" font-size="9.5" font-weight="600" fill="#047857">22. UPDATE orders SET status='accepted', payment_status='paid'; Lock Escrow</text>
+
+          <!-- 23. Dispatch notification to provider -->
+          <line x1="434" y1="820" x2="1066" y2="820" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="750" y="814" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">23. In-App Notification: "New Funded Order Accepted! Start Work"</text>
+
+          <!-- 24. Acknowledge to Buyer -->
+          <line x1="426" y1="845" x2="274" y2="845" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+          <text x="350" y="839" text-anchor="middle" font-size="9" font-weight="600" fill="#047857">24. HTTP 200 (Escrow Locked & Order Active)</text>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 4: COLLABORATION & DELIVERABLE SUBMISSION (Y: 910 - 1170)           -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 910)">
+            <rect width="1480" height="260" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">4. Deliverable Handover</text>
+          </g>
+
+          <!-- Loop: Chat & Messages -->
+          <g transform="translate(90, 955)">
+            <rect width="1000" height="75" rx="8" fill="#ffffff" stroke="#c084fc" stroke-width="1" stroke-dasharray="4,2"/>
+            <path d="M 0 0 L 150 0 L 160 18 L 0 18 Z" fill="#f3e8ff"/>
+            <text x="8" y="13" font-size="9.5" font-weight="700" fill="#6b21a8">loop [Peer Chat & File Clarification]</text>
+          </g>
+
+          <!-- Activations Phase 4 -->
+          <rect x="106" y="980" width="8" height="35" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <rect x="1066" y="975" width="8" height="175" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+          <rect x="426" y="980" width="8" height="170" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="1386" y="1000" width="8" height="145" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+
+          <!-- 25. Direct Message exchange -->
+          <line x1="1066" y1="990" x2="434" y2="990" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="750" y="984" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">25. POST /api/v1/chat/messages (spec clarifications, draft links)</text>
+
+          <line x1="434" y1="1010" x2="114" y2="1010" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="270" y="1004" text-anchor="middle" font-size="9" fill="#6d28d9">Push Message to Buyer's Chat Screen</text>
+
+          <!-- 26. Upload deliverable -->
+          <line x1="1066" y1="1050" x2="434" y2="1050" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="750" y="1044" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">26. POST /api/v1/orders/{id}/deliver (Upload code/zip/pdf deliverables)</text>
+
+          <!-- 27. Magic byte check -->
+          <line x1="434" y1="1070" x2="434" y2="1090" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="434" y1="1090" x2="480" y2="1090" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="480" y1="1090" x2="480" y2="1070" stroke="#0284c7" stroke-width="1.3"/>
+          <line x1="480" y1="1070" x2="442" y2="1070" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+          <text x="560" y="1085" font-size="9" font-weight="600" fill="#0369a1">27. Magic-Byte Binary Check (Validates FF D8 FF / 89 50 4E 47 / 25 50 44 46)</text>
+
+          <!-- 28. Status: Delivered -->
+          <line x1="434" y1="1115" x2="1386" y2="1115" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="910" y="1109" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">28. UPDATE orders SET status='delivered', actual_delivery=NOW()</text>
+
+          <!-- 29. Notify Buyer -->
+          <line x1="426" y1="1140" x2="114" y2="1140" stroke="#2563eb" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+          <text x="270" y="1134" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1d4ed8">29. Notify Buyer: "Work Submitted for Inspection"</text>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 5: BUYER INSPECTION & REVISION HANDLING (Y: 1190 - 1460)            -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 1190)">
+            <rect width="1480" height="270" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">5. Buyer Inspection</text>
+          </g>
+
+          <!-- Alt Frame: Accept vs Revision -->
+          <g transform="translate(80, 1235)">
+            <rect width="1380" height="205" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+            <path d="M 0 0 L 110 0 L 120 18 L 0 18 Z" fill="#e2e8f0"/>
+            <text x="8" y="13" font-size="9.5" font-weight="700" fill="#334155">alt [Inspection Decision]</text>
+
+            <!-- Case 1: Revision -->
+            <rect x="10" y="24" width="75" height="18" rx="4" fill="#fee2e2"/>
+            <text x="47" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#b91c1c">[Revision]</text>
+
+            <!-- Separator Line -->
+            <line x1="0" y1="100" x2="1380" y2="100" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,2"/>
+
+            <!-- Case 2: Accepted -->
+            <rect x="10" y="106" width="75" height="18" rx="4" fill="#dcfce7"/>
+            <text x="47" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="#15803d">[Approved]</text>
+          </g>
+
+          <!-- Activations Phase 5 -->
+          <rect x="106" y="1270" width="8" height="150" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <rect x="426" y="1275" width="8" height="155" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="1066" y="1295" width="8" height="40" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+          <rect x="1386" y="1285" width="8" height="145" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+
+          <!-- 30a. Revision path -->
+          <line x1="114" y1="1280" x2="426" y2="1280" stroke="#dc2626" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="270" y="1274" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">30a. Request Revision (feedback notes, change requirements)</text>
+
+          <line x1="434" y1="1300" x2="1066" y2="1300" stroke="#dc2626" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="750" y="1294" text-anchor="middle" font-size="9" font-weight="600" fill="#b91c1c">Notify Provider of Revision Request (status='revision')</text>
+
+          <!-- 30b. Approval path -->
+          <line x1="114" y1="1360" x2="426" y2="1360" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+          <text x="270" y="1354" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">30b. POST /api/v1/orders/{id}/complete (Approve Deliverable)</text>
+
+          <!-- 31. Payout settlement -->
+          <line x1="434" y1="1385" x2="1386" y2="1385" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+          <text x="910" y="1379" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">31. SET status='completed'; Release Escrow: provider.total_earnings += price; buyer.total_spent += price</text>
+
+          <!-- 32. Confirm complete -->
+          <line x1="426" y1="1415" x2="114" y2="1415" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+          <text x="270" y="1409" text-anchor="middle" font-size="9" font-weight="600" fill="#15803d">32. Order Completed & Funds Credited to Seller</text>
+
+
+          <!-- ========================================================================= -->
+          <!-- PHASE 6: LOCAL AI REVIEW SENTIMENT ANALYSIS (Y: 1480 - 1760)              -->
+          <!-- ========================================================================= -->
+          <g transform="translate(20, 1480)">
+            <rect width="1480" height="280" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,6"/>
+            <rect x="10" y="12" width="160" height="28" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+            <text x="90" y="30" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">6. Local AI Sentiment</text>
+          </g>
+
+          <!-- Loop: NLP Sentiment Pipeline -->
+          <g transform="translate(410, 1565)">
+            <rect width="840" height="90" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="1" stroke-dasharray="4,2"/>
+            <path d="M 0 0 L 180 0 L 190 18 L 0 18 Z" fill="#d1fae5"/>
+            <text x="8" y="13" font-size="9.5" font-weight="700" fill="#065f46">loop [VADER Sentiment & Valence Analysis]</text>
+          </g>
+
+          <!-- Activations Phase 6 -->
+          <rect x="106" y="1520" width="8" height="40" rx="4" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+          <rect x="426" y="1525" width="8" height="215" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1"/>
+          <rect x="1226" y="1580" width="8" height="65" rx="4" fill="#a7f3d0" stroke="#059669" stroke-width="1"/>
+          <rect x="1386" y="1670" width="8" height="60" rx="4" fill="#99f6e4" stroke="#0d9488" stroke-width="1"/>
+          <rect x="1066" y="1715" width="8" height="25" rx="4" fill="#ddd6fe" stroke="#9333ea" stroke-width="1"/>
+
+          <!-- 33. Submit Review -->
+          <line x1="114" y1="1535" x2="426" y2="1535" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="270" y="1529" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">33. POST /api/v1/reviews (rating=5, comment="Outstanding fast code!")</text>
+
+          <!-- 34. Run NLP Sentiment -->
+          <line x1="434" y1="1585" x2="1226" y2="1585" stroke="#059669" stroke-width="1.3" marker-end="url(#arrow-emerald)"/>
+          <text x="830" y="1579" text-anchor="middle" font-size="9.5" font-weight="600" fill="#065f46">34. analyze_sentiment(comment, rating) -> Parse Negations, Boosters & Polarity</text>
+
+          <!-- 35. Sentiment results -->
+          <line x1="1226" y1="1625" x2="434" y2="1625" stroke="#059669" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-emerald)"/>
+          <text x="830" y="1619" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">35. Return {compound_score: +0.88, label: 'positive', summary_tag: 'Overwhelmingly Positive'}</text>
+
+          <!-- 36. Persist review & update aggregates -->
+          <line x1="434" y1="1675" x2="1386" y2="1675" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+          <text x="910" y="1669" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1e293b">36. INSERT reviews, Recalculate provider.average_rating & service.average_rating</text>
+
+          <!-- 37. Notify Provider of review -->
+          <line x1="434" y1="1720" x2="1066" y2="1720" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+          <text x="750" y="1714" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6d28d9">37. In-App Notification: "New 5★ Positive Review Posted! Prompt to Reply"</text>
+
+          <!-- 38. Review success -->
+          <line x1="426" y1="1735" x2="114" y2="1735" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+          <text x="270" y="1729" text-anchor="middle" font-size="9" fill="#475569">38. HTTP 201 Created (Review Verified & Live)</text>
+
+
+          <!-- ============================================== -->
+          <!-- LEGEND (Bottom Right)                          -->
+          <!-- ============================================== -->
+          <g transform="translate(1200, 1785)">
+            <rect width="280" height="80" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" filter="url(#shadow-card)"/>
+            <text x="15" y="18" font-size="10" font-weight="700" fill="#334155">Legend</text>
+            
+            <!-- Activation bar item -->
+            <rect x="18" y="27" width="10" height="18" rx="2" fill="#fecdd3" stroke="#f43f5e" stroke-width="1"/>
+            <text x="36" y="40" font-size="9" fill="#475569">Activation Bar</text>
+
+            <!-- Request Message -->
+            <line x1="130" y1="36" x2="165" y2="36" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrow-req)"/>
+            <text x="175" y="40" font-size="9" fill="#475569">Request Message</text>
+
+            <!-- Response Message -->
+            <line x1="130" y1="60" x2="165" y2="60" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-resp)"/>
+            <text x="175" y="64" font-size="9" fill="#475569">Response Message</text>
+
+            <!-- AI / Escrow Event -->
+            <line x1="18" y1="60" x2="45" y2="60" stroke="#7c3aed" stroke-width="1.3" marker-end="url(#arrow-purple)"/>
+            <text x="55" y="64" font-size="9" fill="#475569">AI / Escrow Event</text>
+          </g>
+
+        </svg>
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 2. SYSTEM ARCHITECTURE SECTION             -->
+    <!-- ========================================== -->
+    <div id="section-architecture" class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+      
+      <!-- Top Title Header Card (matching Image 2) -->
+      <div class="flex flex-col items-center justify-center mb-8 text-center">
+        <div class="w-full max-w-2xl px-8 py-5 rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 border border-blue-200 shadow-sm">
+          <h2 class="text-xl md:text-2xl font-extrabold text-blue-900 tracking-tight">SkillSphere System Architecture</h2>
+          <p class="text-xs md:text-sm font-semibold text-blue-700 mt-1">Campus-Exclusive Peer Skill Exchange & Escrow Marketplace with Embedded Local AI</p>
+        </div>
+      </div>
+
+      <!-- Architecture Layers Container -->
+      <div class="max-w-5xl mx-auto space-y-4">
+
+        <!-- LAYER 1: USER LAYER -->
+        <div class="rounded-2xl p-5 border transition shadow-sm bg-[#FAF8F5] border-[#E8E2D8]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#EFE8DC] text-[#78644A] flex items-center justify-center font-bold text-xs">1</span>
+              <h3 class="font-bold text-sm text-[#4A3B2C] tracking-tight">User layer</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-[#8C755E] uppercase tracking-wider">Actors & Campus Stakeholders</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white border border-[#E8E2D8] rounded-xl p-3.5 shadow-sm hover:border-[#D8CEBF] transition">
+              <div class="font-bold text-xs text-slate-800">Student Buyer</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">@ceconline.edu Client</div>
+              <div class="text-[10px] text-slate-400 mt-1">Searches skills, funds escrow, inspects deliverables</div>
+            </div>
+            <div class="bg-white border border-[#E8E2D8] rounded-xl p-3.5 shadow-sm hover:border-[#D8CEBF] transition">
+              <div class="font-bold text-xs text-slate-800">Student Provider</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Peer Freelancer</div>
+              <div class="text-[10px] text-slate-400 mt-1">Publishes gigs, delivers files, earns campus payouts</div>
+            </div>
+            <div class="bg-white border border-[#E8E2D8] rounded-xl p-3.5 shadow-sm hover:border-[#D8CEBF] transition">
+              <div class="font-bold text-xs text-slate-800">Campus Administrator</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">admin@ceconline.edu</div>
+              <div class="text-[10px] text-slate-400 mt-1">Listing approval, dispute escalation, KYC vetting</div>
+            </div>
+            <div class="bg-white border border-[#E8E2D8] rounded-xl p-3.5 shadow-sm hover:border-[#D8CEBF] transition">
+              <div class="font-bold text-xs text-slate-800">Peer Reviewer</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Verified Order Client</div>
+              <div class="text-[10px] text-slate-400 mt-1">Rates peer work, feeds VADER NLP sentiment engine</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Arrow -->
+        <div class="flex justify-center -my-2 text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+
+        <!-- LAYER 2: PRESENTATION LAYER -->
+        <div class="rounded-2xl p-5 border transition shadow-sm bg-[#EEF8F2] border-[#D3EADB]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#D8EFE2] text-[#2D6A4F] flex items-center justify-center font-bold text-xs">2</span>
+              <h3 class="font-bold text-sm text-[#1B4332] tracking-tight">Presentation layer</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-[#40916C] uppercase tracking-wider">React 18 + Vite + Tailwind CSS</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white border border-[#D3EADB] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Semantic Search & Catalog</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">NL Query & Category Filters</div>
+              <div class="text-[10px] text-slate-400 mt-1">Cosine relevance score badges, fallback SQL ILIKE</div>
+            </div>
+            <div class="bg-white border border-[#D3EADB] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Escrow & Order Tracker</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Multi-State Lifecycle View</div>
+              <div class="text-[10px] text-slate-400 mt-1">Pending → Accepted → Delivered → Completed</div>
+            </div>
+            <div class="bg-white border border-[#D3EADB] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Student Portfolio Hub</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Showcase & Verified Reviews</div>
+              <div class="text-[10px] text-slate-400 mt-1">Project tags, image galleries, NLP sentiment badges</div>
+            </div>
+            <div class="bg-white border border-[#D3EADB] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Peer Chat & Notifications</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Direct Messaging & Bell</div>
+              <div class="text-[10px] text-slate-400 mt-1">Axios interceptor dual-token automated silent refresh</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Arrow -->
+        <div class="flex justify-center -my-2 text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+
+        <!-- LAYER 3: APPLICATION LAYER -->
+        <div class="rounded-2xl p-5 border transition shadow-sm bg-[#F1F2FA] border-[#D9DCF2]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#E0E2F5] text-[#3D4085] flex items-center justify-center font-bold text-xs">3</span>
+              <h3 class="font-bold text-sm text-[#27295C] tracking-tight">Application layer</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-[#575BA8] uppercase tracking-wider">FastAPI Core Modules & Python 3.11</span>
+          </div>
+
+          <!-- Workflow Grid with arrows -->
+          <div class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">Auth & Rate Guard</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded">Security</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">JWT & Sliding-Window IP Limit</div>
+                <div class="text-[10px] text-slate-400 mt-1">10 req/min auth limit, @ceconline.edu domain check</div>
+              </div>
+
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">Semantic AI Search</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-purple-50 text-purple-600 rounded">Local AI</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">TF-IDF Vector Space Model</div>
+                <div class="text-[10px] text-slate-400 mt-1">Campus domain synonym expansion (Coding, ECE, Tutoring)</div>
+              </div>
+
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">Order State Machine</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-indigo-50 text-indigo-600 rounded">Lifecycle</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Milestone & Delivery State</div>
+                <div class="text-[10px] text-slate-400 mt-1">Pending → Accepted → Delivered → Completed / Revision</div>
+              </div>
+            </div>
+
+            <!-- Flow connectors -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center text-[10px] font-semibold text-slate-500">
+              <div class="flex items-center justify-center gap-1">
+                <span>Direct Access</span>
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>Escrow Funded</span>
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>Completed Order</span>
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">Magic-Byte File Validator</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-600 rounded">Security</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Binary Signature Inspection</div>
+                <div class="text-[10px] text-slate-400 mt-1">Validates FF D8 FF (JPEG), 89 50 4E 47 (PNG), 25 50 44 46 (PDF)</div>
+              </div>
+
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">Razorpay Escrow Handler</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded">Fintech</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">HMAC-SHA256 Signature Check</div>
+                <div class="text-[10px] text-slate-400 mt-1">Strict payout settlement, zero financial double counting</div>
+              </div>
+
+              <div class="bg-white border border-[#D9DCF2] rounded-xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-slate-800">VADER NLP Sentiment Engine</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-600 rounded">Local AI</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Offline Lexicon Intensity Analysis</div>
+                <div class="text-[10px] text-slate-400 mt-1">Compound score -1.0 to +1.0, valence booster & negation logic</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Arrow -->
+        <div class="flex justify-center -my-2 text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+
+        <!-- LAYER 4: DATA AND STORAGE LAYER -->
+        <div class="rounded-2xl p-5 border transition shadow-sm bg-[#FAF1EB] border-[#F2DDD0]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#EFE2D8] text-[#8A4C2E] flex items-center justify-center font-bold text-xs">4</span>
+              <h3 class="font-bold text-sm text-[#5C2E19] tracking-tight">Data and storage layer</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-[#A05C3B] uppercase tracking-wider">Persistence & In-Memory State</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white border border-[#F2DDD0] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">PostgreSQL 15</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">AsyncPG + SQLAlchemy 2.0</div>
+              <div class="text-[10px] text-slate-400 mt-1">Users, Services, Orders, Reviews, Portfolios, Notifications</div>
+            </div>
+            <div class="bg-white border border-[#F2DDD0] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Redis 7 Cache</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">In-Memory Fast Store</div>
+              <div class="text-[10px] text-slate-400 mt-1">Sliding-window IP rate limiters & token revocation state</div>
+            </div>
+            <div class="bg-white border border-[#F2DDD0] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Local Vector Corpus</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">TF-IDF Vocabulary Index</div>
+              <div class="text-[10px] text-slate-400 mt-1">Campus synonyms across 7 technical & creative domains</div>
+            </div>
+            <div class="bg-white border border-[#F2DDD0] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Static File Vault</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Local Encrypted Directory</div>
+              <div class="text-[10px] text-slate-400 mt-1">Student avatars, portfolio showcases, deliverable attachments</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Arrow -->
+        <div class="flex justify-center -my-2 text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+
+        <!-- LAYER 5: INFRASTRUCTURE LAYER -->
+        <div class="rounded-2xl p-5 border transition shadow-sm bg-[#FAEDF2] border-[#F3D7E3]">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#EFE0E7] text-[#8C345C] flex items-center justify-center font-bold text-xs">5</span>
+              <h3 class="font-bold text-sm text-[#5C1B39] tracking-tight">Infrastructure layer</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-[#A64B75] uppercase tracking-wider">Dockerized Campus Runtime</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white border border-[#F3D7E3] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Docker Compose</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Bridge Network</div>
+              <div class="text-[10px] text-slate-400 mt-1">skillsphere_network isolated container topology</div>
+            </div>
+            <div class="bg-white border border-[#F3D7E3] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">FastAPI Container</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Uvicorn ASGI Engine</div>
+              <div class="text-[10px] text-slate-400 mt-1">Python 3.11-slim, multi-stage build, non-root user (port 8000)</div>
+            </div>
+            <div class="bg-white border border-[#F3D7E3] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">React Client Container</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Vite Dev / Nginx</div>
+              <div class="text-[10px] text-slate-400 mt-1">Fast Hot-Module Replacement server (port 3000)</div>
+            </div>
+            <div class="bg-white border border-[#F3D7E3] rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">PostgreSQL Container</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Postgres 15 Alpine</div>
+              <div class="text-[10px] text-slate-400 mt-1">Healthchecked container with persistent volume data</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connector Arrow -->
+        <div class="flex justify-center -my-2 text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+
+        <!-- EXTERNAL SERVICES (Dashed Border Box, matching Image 2) -->
+        <div class="rounded-2xl p-5 border-2 border-dashed border-slate-300 bg-slate-50/70 transition">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-sm text-slate-700 tracking-tight">External services</h3>
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Outside the Campus Cluster</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Razorpay Payment Engine</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Checkout SDK & Webhooks</div>
+              <div class="text-[10px] text-slate-400 mt-1">UPI QR, NetBanking, HMAC-SHA256 callback verification</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Campus Identity Edge</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">@ceconline.edu Validation</div>
+              <div class="text-[10px] text-slate-400 mt-1">Restricted student email domain filter on user registration</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm">
+              <div class="font-bold text-xs text-slate-800">Client LocalStorage</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Axios Interceptor Token Queue</div>
+              <div class="text-[10px] text-slate-400 mt-1">Access token (30m) & Refresh token (7d) safe concurrency store</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript for Tab Switching -->
+  <script>
+    function switchTab(tab) {
+      const seqSection = document.getElementById('section-sequence');
+      const archSection = document.getElementById('section-architecture');
+      const btnSeq = document.getElementById('btn-seq');
+      const btnArch = document.getElementById('btn-arch');
+      const btnBoth = document.getElementById('btn-both');
+
+      // Reset button styles
+      [btnSeq, btnArch, btnBoth].forEach(btn => {
+        btn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900";
+      });
+
+      if (tab === 'sequence') {
+        seqSection.classList.remove('hidden');
+        archSection.classList.add('hidden');
+        btnSeq.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-white text-blue-700 shadow-sm";
+      } else if (tab === 'architecture') {
+        seqSection.classList.add('hidden');
+        archSection.classList.remove('hidden');
+        btnArch.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-white text-blue-700 shadow-sm";
+      } else {
+        seqSection.classList.remove('hidden');
+        archSection.classList.remove('hidden');
+        btnBoth.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-white text-blue-700 shadow-sm";
+      }
+    }
+  </script>
+</body>
+</html>
